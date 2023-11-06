@@ -6,12 +6,12 @@ namespace KanbanBoard.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class LoginController : ControllerBase
     {
 
         private readonly IJwtToken _jwtToken;
 
-        public AuthController(IJwtToken jwtToken)
+        public LoginController(IJwtToken jwtToken)
         {
             _jwtToken = jwtToken;
         }

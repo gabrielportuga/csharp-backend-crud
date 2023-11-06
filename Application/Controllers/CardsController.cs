@@ -11,12 +11,12 @@ namespace KanbanBoard.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CardController : ControllerBase
+    public class CardsController : ControllerBase
     {
         private readonly ICardService _cardService;
         private readonly IMapper _mapper;
 
-        public CardController(ICardService CardService, IMapper mapper)
+        public CardsController(ICardService CardService, IMapper mapper)
         {
             _cardService = CardService;
             _mapper = mapper;

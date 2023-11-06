@@ -34,11 +34,7 @@ namespace KanbanBoard.Api.Domain.Services
 
         public Card AddCard(Card card)
         {
-            var cardDb = _cardRepository.GetCard(card.Titulo);
-            if (cardDb == null)
-                return _cardRepository.AddCard(card);
-
-            throw new ArgumentException($"Titulo {card.Titulo} já existente!", nameof(card));
+            return _cardRepository.AddCard(card);
         }
 
         public Card UpdateCard(Card card)
