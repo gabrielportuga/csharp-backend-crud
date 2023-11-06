@@ -43,13 +43,13 @@ namespace KanbanBoard.Api.Domain.Services
 
         public Card UpdateCard(Card card)
         {
-            var cardDb = _cardRepository.GetCard(card.Id)!;
+            return _cardRepository.UpdateCard(card);
+        }
 
-            cardDb.Titulo = card.Titulo;
-            cardDb.Conteudo = card.Conteudo;
-            cardDb.Lista = card.Lista;
-
-            return _cardRepository.UpdateCard(cardDb);
+        public List<Card>? DeleteCard(Card card)
+        {
+            _cardRepository.DeleteCard(card);
+            return _cardRepository.GetCards();
         }
 
         public List<Card>? DeleteCard(Guid cardId)

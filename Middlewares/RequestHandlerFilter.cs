@@ -45,12 +45,17 @@ namespace OasFacadeService.Middleware
                     return;
                 }
 
+                card.Titulo = cardBody.Titulo;
+                card.Conteudo = cardBody.Conteudo;
+                card.Lista = cardBody.Lista;
+                context.ActionArguments["card"] = card;
 
                 Console.WriteLine($"{dateTime} - Card {cardId} - {card.Titulo} - Alterar");
 
             }
             else if (httpContext.Request.Method == HttpMethods.Delete)
             {
+                context.ActionArguments["card"] = card;
                 Console.WriteLine($"{dateTime} - Card {cardId} - {card.Titulo} - Remover");
             }
         }
@@ -66,7 +71,6 @@ namespace OasFacadeService.Middleware
                 context.ExceptionHandled = true;
             }
         }
-
 
         private static Card? GetCard(HttpContext context, string cardId)
         {

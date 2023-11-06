@@ -62,7 +62,7 @@ namespace KanbanBoard.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("{pageNumber}")]
         public async Task<IActionResult> GetPaginated(int? pageNumber)
         {
             var result = _cardService.GetCardsQuery();
