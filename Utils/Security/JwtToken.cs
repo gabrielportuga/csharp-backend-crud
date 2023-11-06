@@ -13,6 +13,7 @@ namespace KanbanBoard.Api.Utils.Security
             string secretKey = KanbanBoardConfig.JwtSecretKey;
             string issuer = KanbanBoardConfig.JwtIssuer;
             string audience = KanbanBoardConfig.JwtAudience;
+            double expireMinutes = KanbanBoardConfig.ExpireMinutes;
 
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
 
@@ -26,7 +27,7 @@ namespace KanbanBoard.Api.Utils.Security
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMinutes(expireMinutes),
                 Audience = audience,
                 Issuer = issuer,
                 SigningCredentials = signingCredentials

@@ -4,7 +4,6 @@ using KanbanBoard.Api.Utils.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using OasFacadeService.Middleware;
 
 namespace KanbanBoard.Api
 {
@@ -69,7 +68,8 @@ namespace KanbanBoard.Api
                     ValidateAudience = true,
                     ValidAudience = KanbanBoardConfig.JwtAudience,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KanbanBoardConfig.JwtSecretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KanbanBoardConfig.JwtSecretKey)),
+                    RequireExpirationTime = true,
                 };
             });
 
@@ -87,7 +87,6 @@ namespace KanbanBoard.Api
             }
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
 
             app.MapControllers();
 

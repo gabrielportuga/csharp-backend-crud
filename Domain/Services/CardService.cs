@@ -34,28 +34,31 @@ namespace KanbanBoard.Api.Domain.Services
 
         public Card AddCard(Card card)
         {
-            // var cardResponse = _cardRepository.GetCard(card.Titulo);
-            // if (cardResponse == null)
-            return _cardRepository.AddCard(card);
+            var cardDb = _cardRepository.GetCard(card.Titulo);
+            if (cardDb == null)
+                return _cardRepository.AddCard(card);
 
-            //throw new ArgumentException($"Titulo {card.Titulo} already exists!", nameof(card));
+            throw new ArgumentException($"Titulo {card.Titulo} já existente!", nameof(card));
         }
 
-        public Card? UpdateCard(Card card)
+        public Card UpdateCard(Card card)
         {
-            return _cardRepository.UpdateCard(card);
+            var cardDb = _cardRepository.GetCard(card.Id)!;
+
+            cardDb.Titulo = card.Titulo;
+            cardDb.Conteudo = card.Conteudo;
+            cardDb.Lista = card.Lista;
+
+            return _cardRepository.UpdateCard(cardDb);
         }
 
         public List<Card>? DeleteCard(Guid cardId)
         {
+            var cardDb = _cardRepository.GetCard(cardId)!;
 
-            var cardResponse = _cardRepository.GetCard(cardId);
-            if (cardResponse != null)
-            {
-                _cardRepository.DeleteCard(cardResponse);
-                return _cardRepository.GetCards();
-            }
-            return null;
+            _cardRepository.DeleteCard(cardDb);
+            return _cardRepository.GetCards();
+
         }
     }
 }

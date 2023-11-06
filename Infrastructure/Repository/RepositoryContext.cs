@@ -12,6 +12,5 @@ namespace KanbanBoard.Api.Infrastructure.Repository
         }
 
         public DbSet<Card> Card { get; set; }
-
     }
 }

@@ -22,26 +22,13 @@ namespace KanbanBoard.Api.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/cards
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetPaginated(int? pageNumber)
-        {
-            var result = _cardService.GetCardsQuery();
-
-            var paginatedResult = await PaginatedList<Card>.CreateAsync(result, pageNumber ?? 1, 10);
-
-            return Ok(paginatedResult);
-        }
-
-        // // POST api/cards
         [Authorize]
         [HttpPost]
         public void Post([FromBody] CardDto cardDto)
         {
             var cardRequest = _mapper.Map<Card>(cardDto);
-            var cardId = _cardService.AddCard(cardRequest);
-            Ok(new { id = cardId });
+            var card = _cardService.AddCard(cardRequest);
+            Created("", card);
         }
 
         [Authorize]
@@ -52,21 +39,37 @@ namespace KanbanBoard.Api.Controllers
             return Ok(_cardService.UpdateCard(card));
         }
 
-        // // POST api/cards
         [Authorize]
         [RequestHandlerFilter]
         [HttpDelete("{id}")]
-        public ActionResult<List<Card>?> Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
             return Ok(_cardService.DeleteCard(id));
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(Guid id)
         {
-            return $"value {id}";
+            return Ok(_cardService.GetCard(id));
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetCards()
+        {
+            return Ok(_cardService.GetCards());
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetPaginated(int? pageNumber)
+        {
+            var result = _cardService.GetCardsQuery();
+
+            var paginatedResult = await PaginatedList<Card>.CreateAsync(result, pageNumber ?? 1, 10);
+
+            return Ok(paginatedResult);
+        }
     }
 }

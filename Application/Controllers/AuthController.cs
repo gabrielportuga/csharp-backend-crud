@@ -1,3 +1,4 @@
+using KanbanBoard.Api.Utils.Configurations;
 using KanbanBoard.Api.Utils.Security;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace KanbanBoard.Api.Controllers
         [HttpPost]
         public IActionResult Login(string login, string password)
         {
-            if (login == "letscode" && password == "lets@123")
+            if (login == KanbanBoardConfig.Login && password == KanbanBoardConfig.Password)
             {
                 var token = _jwtToken.GenerateJwtToken(login);
                 return Ok(new { token });
