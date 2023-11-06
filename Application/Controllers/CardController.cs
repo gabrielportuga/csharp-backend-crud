@@ -4,9 +4,10 @@ using KanbanBoard.Api.Domain.Models;
 using KanbanBoard.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OasTools.Domain.Services;
+using KanbanBoard.Api.Domain.Services;
+using OasFacadeService.Middleware;
 
-namespace OasTools.Controllers
+namespace KanbanBoard.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -33,6 +34,32 @@ namespace OasTools.Controllers
             return Ok(paginatedResult);
         }
 
+        // // POST api/cards
+        [Authorize]
+        [HttpPost]
+        public void Post([FromBody] CardDto cardDto)
+        {
+            var cardRequest = _mapper.Map<Card>(cardDto);
+            var cardId = _cardService.AddCard(cardRequest);
+            Ok(new { id = cardId });
+        }
+
+        [Authorize]
+        [RequestHandlerFilter]
+        [HttpPut("{id}")]
+        public IActionResult Put(Guid id, [FromBody] Card card)
+        {
+            return Ok(_cardService.UpdateCard(card));
+        }
+
+        // // POST api/cards
+        [Authorize]
+        [RequestHandlerFilter]
+        [HttpDelete("{id}")]
+        public ActionResult<List<Card>?> Delete(Guid id)
+        {
+            return Ok(_cardService.DeleteCard(id));
+        }
 
         [Authorize]
         [HttpGet("{id}")]
@@ -40,25 +67,6 @@ namespace OasTools.Controllers
         {
             return $"value {id}";
         }
-
-        // // POST api/cards
-        [Authorize]
-        [HttpPost]
-        public void Post(CardDto cardDto)
-        {
-            try
-            {
-                var cardRequest = _mapper.Map<Card>(cardDto);
-                var cardId = _cardService.AddCard(cardRequest);
-                Created(Url.ToString() ?? "", new { id = cardId });
-            }
-            catch
-            {
-                BadRequest();
-            }
-
-        }
-
 
     }
 }

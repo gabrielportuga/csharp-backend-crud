@@ -1,9 +1,7 @@
-
-
 using KanbanBoard.Api.Domain.Models;
 using KanbanBoard.Api.Domain.Repository;
 
-namespace OasTools.Domain.Services
+namespace KanbanBoard.Api.Domain.Services
 {
     public class CardService : ICardService
     {
@@ -14,46 +12,50 @@ namespace OasTools.Domain.Services
             _cardRepository = cardRepository;
         }
 
-        public Guid AddCard(Card card)
+        public Card? GetCard(Guid cardId)
         {
-            try
-            {
-                var cardResponse = _cardRepository.GetCard(card.Id);
-                if (cardResponse == null)
-                    return _cardRepository.AddCard(card);
-
-                throw new ArgumentException("Card already exists");
-            }
-            catch
-            {
-                throw;
-            }
+            return _cardRepository.GetCard(cardId);
         }
 
-        public Card? UpdateCard(Card card)
+        public Card? GetCard(string titulo)
         {
-            try
-            {
-                var cardResponse = _cardRepository.GetCard(card.Id);
-                if (cardResponse == null)
-                    return _cardRepository.UpdateCard(card);
-
-                return null;
-            }
-            catch
-            {
-                throw;
-            }
+            return _cardRepository.GetCard(titulo);
         }
 
-        public IList<Card> GetCards()
+        public List<Card>? GetCards()
         {
             return _cardRepository.GetCards().ToList();
         }
 
         public IQueryable<Card> GetCardsQuery()
         {
-            return _cardRepository.GetCards();
+            return _cardRepository.GetCardsQuery();
+        }
+
+        public Card AddCard(Card card)
+        {
+            // var cardResponse = _cardRepository.GetCard(card.Titulo);
+            // if (cardResponse == null)
+            return _cardRepository.AddCard(card);
+
+            //throw new ArgumentException($"Titulo {card.Titulo} already exists!", nameof(card));
+        }
+
+        public Card? UpdateCard(Card card)
+        {
+            return _cardRepository.UpdateCard(card);
+        }
+
+        public List<Card>? DeleteCard(Guid cardId)
+        {
+
+            var cardResponse = _cardRepository.GetCard(cardId);
+            if (cardResponse != null)
+            {
+                _cardRepository.DeleteCard(cardResponse);
+                return _cardRepository.GetCards();
+            }
+            return null;
         }
     }
 }

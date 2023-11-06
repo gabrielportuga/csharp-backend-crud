@@ -8,7 +8,7 @@ namespace KanbanBoard.Api.Domain.Dtos
         [Required(ErrorMessage = "Título is required")]
         [StringLength(80, ErrorMessage = "Título can't be longer than 80 characters")]
         [JsonProperty(PropertyName = "titulo")]
-        public required string Titulo { get; set; }
+        public string? Titulo { get; set; }
 
         [JsonProperty(PropertyName = "conteudo")]
         public string? Conteudo { get; set; }

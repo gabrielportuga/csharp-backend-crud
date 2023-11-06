@@ -1,5 +1,6 @@
 
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace KanbanBoard.Api.Infrastructure.Repository.common
 {
@@ -12,5 +13,7 @@ namespace KanbanBoard.Api.Infrastructure.Repository.common
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
+        T? FindByPrimaryKey(object primaryKey);
+        PropertyInfo? GetPrimaryKeyProperty();
     }
 }

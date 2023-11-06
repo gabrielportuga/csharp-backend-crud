@@ -1,10 +1,10 @@
 using System.Text;
 using KanbanBoard.Api.Infrastructure.Configuration;
 using KanbanBoard.Api.Utils.Configurations;
-using KanbanBoard.Api.Utils.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OasFacadeService.Middleware;
 
 namespace KanbanBoard.Api
 {
@@ -69,7 +69,7 @@ namespace KanbanBoard.Api
                     ValidateAudience = true,
                     ValidAudience = KanbanBoardConfig.JwtAudience,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KanbanBoardConfig.JwtSecretKey)) // Replace with your secret key
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KanbanBoardConfig.JwtSecretKey))
                 };
             });
 
@@ -88,11 +88,11 @@ namespace KanbanBoard.Api
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+
             app.MapControllers();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMiddleware<JwtTokenValidationMiddleware>();
         }
     }
 }

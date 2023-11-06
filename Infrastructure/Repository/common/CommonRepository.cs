@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace KanbanBoard.Api.Infrastructure.Repository.common
 {
@@ -34,6 +35,26 @@ namespace KanbanBoard.Api.Infrastructure.Repository.common
         public void Delete(T entity) => _context.Set<T>().Remove(entity);
 
         public void SaveChanges() => _context.SaveChanges();
+
+        public T? FindByPrimaryKey(object primaryKey)
+        {
+            var primaryKeyProperty = GetPrimaryKeyProperty();
+
+            if (primaryKeyProperty == null)
+            {
+                throw new InvalidOperationException("Primary key property not found for the entity.");
+            }
+
+            var keyValues = new object[] { primaryKey };
+            return _context.Set<T>().Find(keyValues);
+        }
+
+        public PropertyInfo? GetPrimaryKeyProperty()
+        {
+            return _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties
+                .Select(x => x.PropertyInfo)
+                .FirstOrDefault();
+        }
 
     }
 }

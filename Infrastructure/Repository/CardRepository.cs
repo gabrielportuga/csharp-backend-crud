@@ -14,38 +14,32 @@ namespace KanbanBoard.Api.Domain.Repository
             _repository = repositoryContext;
         }
 
-        public Guid AddCard(Card card)
+        public Card? GetCard(Guid cardId) => FindByCondition(c => c.Id == cardId).FirstOrDefault();
+
+        public Card? GetCard(string titulo) => FindByCondition(c => c.Titulo == titulo).FirstOrDefault();
+
+        public IQueryable<Card> GetCardsQuery() => FindAll();
+
+        public List<Card> GetCards() => FindAll().ToList();
+
+        public Card AddCard(Card card)
         {
-            try
-            {
-                Create(card);
-                SaveChanges();
-                return card.Id;
-            }
-            catch
-            {
-                throw;
-            }
+            Create(card);
+            SaveChanges();
+            return card;
         }
 
         public Card UpdateCard(Card card)
         {
-            try
-            {
-                Update(card);
-                SaveChanges();
-                return card;
-            }
-            catch
-            {
-                throw;
-            }
+            Update(card);
+            SaveChanges();
+            return card;
         }
 
-        public IQueryable<Card> GetCards() =>
-            FindAll();
-
-        public Card? GetCard(Guid id) =>
-            FindByCondition(c => c.Id == id).FirstOrDefault();
+        public void DeleteCard(Card card)
+        {
+            Delete(card);
+            SaveChanges();
+        }
     }
 }

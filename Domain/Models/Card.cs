@@ -15,9 +15,9 @@ namespace KanbanBoard.Api.Domain.Models
         public required string Titulo { get; set; }
 
         [JsonProperty(PropertyName = "conteudo")]
-        public string? Conteudo { get; set; }
+        public required string Conteudo { get; set; }
 
         [JsonProperty(PropertyName = "lista")]
-        public string? Lista { get; set; }
+        public required string Lista { get; set; }
     }
 }

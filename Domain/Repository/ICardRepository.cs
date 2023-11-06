@@ -4,12 +4,18 @@ namespace KanbanBoard.Api.Domain.Repository
 {
     public interface ICardRepository
     {
-        public IQueryable<Card> GetCards();
+        public Card? GetCard(Guid cardId);
 
-        public Card? GetCard(Guid id);
+        Card? GetCard(string titulo);
 
-        public Guid AddCard(Card card);
+        public List<Card> GetCards();
+
+        public IQueryable<Card> GetCardsQuery();
+
+        public Card AddCard(Card card);
 
         public Card UpdateCard(Card card);
+
+        public void DeleteCard(Card cardId);
     }
 }

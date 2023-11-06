@@ -1,8 +1,7 @@
 using KanbanBoard.Api.Utils.Security;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OasTools.Controllers
+namespace KanbanBoard.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

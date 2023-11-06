@@ -2,7 +2,7 @@
 
 using KanbanBoard.Api.Domain.Repository;
 using KanbanBoard.Api.Utils.Security;
-using OasTools.Domain.Services;
+using KanbanBoard.Api.Domain.Services;
 
 namespace KanbanBoard.Api.Infrastructure.Configuration
 {
@@ -12,8 +12,7 @@ namespace KanbanBoard.Api.Infrastructure.Configuration
         {
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<ICardRepository, CardRepository>();
-
-            services.AddTransient<IJwtToken, JwtToken>();
+            services.AddScoped<IJwtToken, JwtToken>();
         }
     }
 }
