@@ -1,4 +1,4 @@
-# Nodejs-Backend-CRUD
+# Csharp-Backend-CRUD
 
 Este é um projeto dotnet 7.0 que utiliza Microsoft.EntityFrameworkCore.InMemory para criar e gerenciar um banco de dados em memória. Ele inclui um Swagger Page para documentação da API.
 
